@@ -348,7 +348,8 @@ OctreePartitioner::OctreePartitioner(
     return;
   }
 
-  write_message("Building octree...", 5);
+  write_message(
+    "Building octree...", PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 
   Timer construction_timer;
   construction_timer.start();

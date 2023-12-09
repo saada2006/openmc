@@ -253,12 +253,12 @@ std::vector<T> binned_point_search(
   const Universe& univ, const UniversePartitioner& fallback, const BoundingBox& bounds)
 {
   constexpr int32_t BINNING_SEARCH_TOTAL_POINTS =
-    8000000; // how many total points we want to search
+    32000000; // how many total points we want to search
   constexpr int32_t BINNING_SEARCH_TOTAL_ITERATIONS =
-    128; // how many iterations we want to have (many iterations is slightly
+    256; // how many iterations we want to have (many iterations is slightly
          // better but might lead to bad CPU usage)
   constexpr int32_t BINNING_SEARCH_GRID_RES =
-    32; // the resolution of our bin grid
+    64; // the resolution of our bin grid
 
   Timer binned_search_timer;
   binned_search_timer.start();

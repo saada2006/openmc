@@ -1,5 +1,6 @@
 #include "openmc/zplane_partitioner.h"
 #include "openmc/partitioners.h"
+#include "openmc/timer.h"
 
 //==============================================================================
 // ZPlanePartitioner implementation
@@ -9,6 +10,11 @@ namespace openmc {
 
 ZPlanePartitioner::ZPlanePartitioner(const Universe& univ)
 {
+  write_message("Building z-plane partitioner...", 5);
+
+  Timer construction_timer;
+  construction_timer.start();
+
   // Define an ordered set of surface indices that point to z-planes.  Use a
   // functor to to order the set by the z0_ values of the corresponding planes.
   struct compare_surfs {
@@ -105,6 +111,10 @@ ZPlanePartitioner::ZPlanePartitioner(const Universe& univ)
       partitions_[i].push_back(i_cell);
     }
   }
+
+  write_message("Z-plane partioner construction completed in " +
+                  std::to_string(construction_timer.elapsed()) + " seconds.",
+    PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 }
 
 ZPlanePartitioner::ZPlanePartitioner(const Universe& univ, hid_t file)
