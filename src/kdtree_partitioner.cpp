@@ -274,7 +274,8 @@ KdTreePartitioner::KdTreePartitioner(
     nodes_.push_back(comp_node);
   }
   write_message("Kd-tree construction completed in " +
-                std::to_string(construction_timer.elapsed()) + " seconds.");
+                  std::to_string(construction_timer.elapsed()) + " seconds.",
+    PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 }
 
 KdTreePartitioner::~KdTreePartitioner() {}

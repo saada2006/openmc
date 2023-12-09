@@ -1,6 +1,7 @@
 #ifndef OPENMC_PARTITIONER_UTILS_H
 #define OPENMC_PARTITIONER_UTILS_H
 
+#include "error.h"
 #include "position.h"
 #include "random_dist.h"
 #include "timer.h"
@@ -13,6 +14,8 @@
 #include <vector>
 
 namespace openmc {
+
+const int PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL = 5;
 
 // This works by allocating large pools of nodes
 // When we have to allocate nodes during construction, we allocate one from
@@ -257,6 +260,9 @@ std::vector<T> binned_point_search(
   constexpr int32_t BINNING_SEARCH_GRID_RES =
     32; // the resolution of our bin grid
 
+  Timer binned_search_timer;
+  binned_search_timer.start();
+
   // the density we want to sample per iteration
   double target_density = BINNING_SEARCH_TOTAL_POINTS /
                           (BINNING_SEARCH_TOTAL_ITERATIONS * bounds.volume());
@@ -373,7 +379,16 @@ std::vector<T> binned_point_search(
 
     // move the write offset
     write_offset += num_search_points;
+    write_message("Binned point search " +
+                    std::to_string((100.0 * (iteration + 1)) /
+                                   BINNING_SEARCH_TOTAL_ITERATIONS) +
+                    "% complete.",
+      PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
   }
+
+  write_message("Binned point search took " +
+                  std::to_string(binned_search_timer.elapsed()) + " seconds.",
+    PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 
   return points_in_bounds;
 }

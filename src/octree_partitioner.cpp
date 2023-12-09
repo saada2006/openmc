@@ -617,7 +617,7 @@ OctreePartitioner::OctreePartitioner(
 
   write_message("Octree construction completed in " +
                   std::to_string(construction_timer.elapsed()) + " seconds.",
-    5);
+    PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 }
 
 OctreePartitioner::OctreePartitioner(

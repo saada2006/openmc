@@ -43,7 +43,7 @@ BinGridPartitioner::BinGridPartitioner(
 
   write_message("Bin grid partitioner construction completed in " +
                   std::to_string(build_timer.elapsed()) + " seconds.",
-    5);
+    PARTITIONER_PERFORMANCE_MONITORING_LOG_LEVEL);
 }
 
 BinGridPartitioner::~BinGridPartitioner() {}
